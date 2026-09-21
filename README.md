@@ -184,11 +184,13 @@ This reduces repetitive manual execution while providing checks at each importan
 
 ### Power Automate Workflow
 
-![Power Automate workflow](images/power_automate_workflow_1.jpeg)
+<img width="1600" height="799" alt="power_automate_workflow_1" src="https://github.com/user-attachments/assets/4cf9648f-5f44-4e53-9575-14ff1e1dd33d" />
+
 
 ### Successful Processing
 
-![Power Automate successful processing](images/power_automate_workflow_2.jpeg)
+<img width="1600" height="800" alt="power_automate_workflow_2" src="https://github.com/user-attachments/assets/108a44d7-e9ac-4629-bb54-0c4d65f5647f" />
+
 
 The Power Automate action definition is also included in the `power_automate` directory.
 
