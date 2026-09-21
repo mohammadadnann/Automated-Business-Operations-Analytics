@@ -1,0 +1,29 @@
+IF (File.IfFile.Exists File: $'''C:\\Users\\iqbalm64\\Documents\\Automated-Business-Operations-Analytics-main\\data\\raw\\online_retail_II.xlsx''') THEN
+    Scripting.RunDOSCommand.RunDOSCommandWithCodePageAndFailOnTimeout DOSCommandOrApplication: $'''python python\\02_data_validation.py''' Encoding: System.Encoding.utf_8 WorkingDirectory: $'''C:\\Users\\iqbalm64\\Documents\\Automated-Business-Operations-Analytics-main''' Timeout: 600 StandardOutput=> CommandOutput StandardError=> CommandErrorOutput ExitCode=> CommandExitCode
+    IF CommandExitCode = 0 THEN
+        Scripting.RunDOSCommand.RunDOSCommandAndFailOnTimeout DOSCommandOrApplication: $'''python python\\03_data_preprocessing.py''' WorkingDirectory: $'''C:\\Users\\iqbalm64\\Documents\\Automated-Business-Operations-Analytics-main''' Timeout: 600 StandardOutput=> CommandOutput2 StandardError=> CommandErrorOutput2 ExitCode=> CommandExitCode2
+        IF CommandExitCode2 = 0 THEN
+            IF (File.IfFile.Exists File: $'''C:\\Users\\iqbalm64\\Documents\\Automated-Business-Operations-Analytics-main\\data\\processed\\transactions_clean.csv''') THEN
+                Display.ShowMessageDialog.ShowMessage Title: $'''Processing Complete''' Message: $'''Business data validation and preprocessing completed successfully.
+
+The cleaned transaction file is ready for analysis.''' Icon: Display.Icon.None Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: False ButtonPressed=> ButtonPressed
+            ELSE
+                Display.ShowMessageDialog.ShowMessage Title: $'''Output File Missing''' Message: $'''Preprocessing completed, but the cleaned transaction file was not found.
+
+Check the preprocessing output before continuing.''' Icon: Display.Icon.None Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: False ButtonPressed=> ButtonPressed5
+            END
+        ELSE
+            Display.ShowMessageDialog.ShowMessage Title: $'''Processing Failed''' Message: $'''Data Processng Failed.
+
+Review the Power Automate command error output before continuing.''' Icon: Display.Icon.None Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: False ButtonPressed=> ButtonPressed2
+        END
+    ELSE
+        Display.ShowMessageDialog.ShowMessage Title: $'''Validation Failed''' Message: $'''Data Validation Failed.
+
+Review the Power Automate command error output before continuing.''' Icon: Display.Icon.None Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: False ButtonPressed=> ButtonPressed3
+    END
+ELSE
+    Display.ShowMessageDialog.ShowMessage Title: $'''Source File Missing''' Message: $'''The Online Retail II source file was not found.
+
+Check the data raw folder before running the workflow again.''' Icon: Display.Icon.None Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: False ButtonPressed=> ButtonPressed4
+END
